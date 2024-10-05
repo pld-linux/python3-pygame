@@ -1,6 +1,7 @@
 #
 # Conditional build:
 %bcond_without	apidocs	# Sphinx documentation
+%bcond_with	sse4	# SSE 4.2 instructions
 
 %define		module	pygame
 
@@ -35,6 +36,9 @@ BuildRequires:	sphinx-pdg-3
 %endif
 BuildRequires:	xorg-lib-libX11-devel
 Requires:	python3-modules >= 1:3.6
+%if %{with sse4}
+Requires:	cpuinfo(sse4_2)
+%endif
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -95,7 +99,9 @@ Przykłady do modułów Pythona pygame.
 
 %build
 export PORTMIDI_INC_PORTTIME=1
+%if %{without sse4}
 CFLAGS="%{rpmcflags} -DPG_COMPILE_SSE4_2=0"
+%endif
 %py3_build
 
 %if %{with apidocs}
