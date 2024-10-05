@@ -1,30 +1,30 @@
---- pygame-2.0.3/buildconfig/config_unix.py.orig	2024-10-03 22:31:41.481965431 +0200
-+++ pygame-2.0.3/buildconfig/config_unix.py	2024-10-04 06:25:17.535875741 +0200
-@@ -136,14 +136,10 @@ def main(sdl2=False):
-     #these get prefixes with '/usr' and '/usr/local' or the $LOCALBASE
-     if sdl2:
-         origincdirs = ['/include', '/include/SDL2']
--        origlibdirs = ['/lib', '/lib64', '/X11R6/lib',
--                       '/lib/i386-linux-gnu', '/lib/x86_64-linux-gnu',
--                       '/lib/arm-linux-gnueabihf/', '/lib/aarch64-linux-gnu/']
--
-+        origlibdirs = ['/lib', '/lib64', '/libx32']
-     else:
-         origincdirs = ['/include', '/include/SDL', '/include/SDL']
--        origlibdirs = ['/lib', '/lib64', '/X11R6/lib', '/lib/arm-linux-gnueabihf/',
--                       '/lib/aarch64-linux-gnu/']
-+        origlibdirs = ['/lib', '/lib64', '/libx32']
-     if 'ORIGLIBDIRS' in os.environ and os.environ['ORIGLIBDIRS'] != "":
-         origlibdirs = os.environ['ORIGLIBDIRS'].split(":")
+--- pygame-2.6.1/buildconfig/config_unix.py.orig	2024-10-05 07:49:29.653718456 +0200
++++ pygame-2.6.1/buildconfig/config_unix.py	2024-10-05 08:20:15.307053028 +0200
+@@ -141,7 +141,7 @@ def main(auto_config=False):
  
---- pygame-1.9.6/src_c/scale_mmx.c.orig	2019-04-25 08:14:17.000000000 +0200
-+++ pygame-1.9.6/src_c/scale_mmx.c	2024-09-26 20:21:01.509926690 +0200
+     #these get prefixes with '/usr' and '/usr/local' or the $LOCALBASE
+     origincdirs = ['/include', '/include/SDL2']
+-    origlibdirs = ['/lib', '/lib64', '/X11R6/lib']
++    origlibdirs = ['/lib', '/lib64', '/libx32']
+ 
+     # If we are on a debian based system, we also need to handle
+     # /lib/<multiarch-tuple>
+@@ -168,7 +168,6 @@ def main(auto_config=False):
+ 
+         if stdout:
+             # found what we were looking for
+-            origlibdirs.append(f"/lib/{stdout}")
+             break
+ 
+     if 'ORIGLIBDIRS' in os.environ and os.environ['ORIGLIBDIRS'] != "":
+--- pygame-2.6.1/src_c/scale_mmx.c.orig	2024-10-05 07:49:29.657051772 +0200
++++ pygame-2.6.1/src_c/scale_mmx.c	2024-10-05 08:20:55.180170350 +0200
 @@ -29,7 +29,7 @@
   * Including source code like this may be frowned upon by some,
   * but the alternative is ungainly conditionally compiled code.
   */
--#   if defined(__x86_64__)
-+#   if defined(__x86_64__) && defined(__LP64__)
- #       include "scale_mmx64.c"
- #   elif defined(__i386__)
- #       include "scale_mmx32.c"
+-#if defined(__x86_64__)
++#if defined(__x86_64__) && defined(__LP64__)
+ #include "scale_mmx64.c"
+ #elif defined(__i386__)
+ #include "scale_mmx32.c"
