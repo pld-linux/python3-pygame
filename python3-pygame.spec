@@ -95,7 +95,7 @@ Przykłady do modułów Pythona pygame.
 
 %prep
 %setup -q -n %{module}-%{version}
-%patch2 -p1
+%patch -P 2 -p1
 
 %build
 export PORTMIDI_INC_PORTTIME=1
