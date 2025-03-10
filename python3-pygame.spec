@@ -9,7 +9,7 @@ Summary:	Python modules designed for writing games
 Summary(pl.UTF-8):	Moduły Pythona dla piszących gry
 Name:		python3-%{module}
 Version:	2.6.1
-Release:	1
+Release:	2
 License:	LGPL v2.1+
 Group:		Libraries/Python
 Source0:	https://files.pythonhosted.org/packages/source/p/pygame/pygame-%{version}.tar.gz
